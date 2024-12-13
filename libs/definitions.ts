@@ -25,3 +25,10 @@ export const StoreSchema = z.object({
 }) satisfies z.ZodType<Prisma.StoreCreateInput>;
 
 export type StoreDto = z.infer<typeof StoreSchema>;
+
+export const ColorSchema = z.object({
+  name: z.string().nonempty("Название цвета не может быть пустым"),
+  value: z.string().nonempty("Цвет не может быть пустым"),
+}) satisfies z.ZodType<Prisma.ColorCreateInput>;
+
+export type ColorDto = z.infer<typeof ColorSchema>;
