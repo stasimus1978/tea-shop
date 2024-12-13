@@ -30,6 +30,43 @@ export async function getUserByEmail(email: string) {
   return user as UserWithIncludes;
 }
 
+/**
+ *  Toggle favorite product
+ * @param productId
+ * @param userId
+ * @returns
+ */
+export async function toggleFavorite(productId: string, userId: string) {
+  // TODO: authenticate user
+  const user = await getUserById(userId);
+
+  const isExist = user.favorites.some((product) => product.id === productId);
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      favorites: {
+        [isExist ? "disconnect" : "connect"]: { id: productId },
+      },
+    },
+  });
+
+  return true;
+}
+
+/**
+ *  Get user profile
+ * @param id
+ * @returns
+ */
+
+export async function getUserProfile(id: string) {
+  // TODO: authenticate user
+  const profile = await getUserById(id);
+
+  return profile;
+}
+
 export async function createUser(data: AuthDto) {
   const newUser = await prisma.user.create({
     data: {

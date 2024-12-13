@@ -19,13 +19,9 @@ export const AuthSchema = z.object({
 
 export type AuthDto = z.infer<typeof AuthSchema>;
 
-export type FormState =
-  | {
-      errors?: {
-        name?: string[];
-        email?: string[];
-        password?: string[];
-      };
-      message?: string;
-    }
-  | undefined;
+export const StoreSchema = z.object({
+  title: z.string().nonempty("Название магазина не может быть пустым"),
+  description: z.string(),
+}) satisfies z.ZodType<Prisma.StoreCreateInput>;
+
+export type StoreDto = z.infer<typeof StoreSchema>;
