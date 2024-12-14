@@ -12,6 +12,6 @@ export type StoreIncludes = Prisma.StoreGetPayload<{
   };
 }>;
 
-export type StoreCreateProps = Pick<StoreItem, "title">;
+export type StoreInputProps = Pick<StoreItem, "title">;
 
 export type StoreEditProps = Omit<StoreItem, "id">;
