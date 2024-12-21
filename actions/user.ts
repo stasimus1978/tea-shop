@@ -1,8 +1,9 @@
 import { hash } from "argon2";
 
 import prisma from "@/utils/prisma";
-import { AuthDto } from "@/libs/definitions";
-import { UserWithIncludes } from "@/libs/types";
+
+import { type AuthDto } from "@/libs/definitions";
+import { type UserWithIncludes } from "@/libs/types";
 
 export async function getUserById(id: string) {
   const user = await prisma.user.findUnique({
@@ -10,8 +11,8 @@ export async function getUserById(id: string) {
     include: {
       stores: true,
       favorites: true,
-      orders: true,
-    },
+      orders: true
+    }
   });
 
   return user as UserWithIncludes;
@@ -23,8 +24,8 @@ export async function getUserByEmail(email: string) {
     include: {
       stores: true,
       favorites: true,
-      orders: true,
-    },
+      orders: true
+    }
   });
 
   return user as UserWithIncludes;
@@ -40,15 +41,15 @@ export async function toggleFavorite(productId: string, userId: string) {
   // TODO: authenticate user
   const user = await getUserById(userId);
 
-  const isExist = user.favorites.some((product) => product.id === productId);
+  const isExist = user.favorites.some(product => product.id === productId);
 
   await prisma.user.update({
     where: { id: userId },
     data: {
       favorites: {
-        [isExist ? "disconnect" : "connect"]: { id: productId },
-      },
-    },
+        [isExist ? "disconnect" : "connect"]: { id: productId }
+      }
+    }
   });
 
   return true;
@@ -72,8 +73,8 @@ export async function createUser(data: AuthDto) {
     data: {
       name: data.name,
       email: data.email,
-      password: await hash(data.password as string),
-    },
+      password: await hash(data.password as string)
+    }
   });
 
   return newUser;

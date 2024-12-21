@@ -1,12 +1,13 @@
-import { Color } from "@prisma/client";
+import { type Color } from "@prisma/client";
 
 import prisma from "@/utils/prisma";
-import { ColorDto } from "@/libs/definitions";
+
+import { type ColorDto } from "@/libs/definitions";
 
 export async function getColorById(id: string) {
   // TODO: authenticate user
   const color = await prisma.color.findUnique({
-    where: { id },
+    where: { id }
   });
 
   if (!color) throw new Error("Цвет не найден");
@@ -20,8 +21,8 @@ export async function createColor(color: ColorDto) {
   const newColor = await prisma.color.create({
     data: {
       name: color.name,
-      value: color.value,
-    },
+      value: color.value
+    }
   });
 
   return newColor;
@@ -38,8 +39,8 @@ export async function updateColor(colorId: string, color: ColorDto) {
     where: { id: colorId },
     data: {
       name: color.name,
-      value: color.value,
-    },
+      value: color.value
+    }
   });
 
   return updateStore;
@@ -52,7 +53,7 @@ export async function deleteColor(storeId: string) {
   if (!isExist) throw new Error("Color не найден");
 
   const deleteStore = await prisma.color.delete({
-    where: { id: storeId },
+    where: { id: storeId }
   });
 
   return deleteStore;

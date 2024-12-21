@@ -1,12 +1,13 @@
-import { Store } from "@prisma/client";
+import { type Store } from "@prisma/client";
 
 import prisma from "@/utils/prisma";
-import { StoreDto } from "@/libs/definitions";
+
+import { type StoreDto } from "@/libs/definitions";
 
 export async function getStoreById(storeId: string, userId: string) {
   // TODO: authenticate user
   const store = await prisma.store.findUnique({
-    where: { id: storeId, userId },
+    where: { id: storeId, userId }
   });
 
   if (!store) throw new Error("Магазин не найден");
@@ -21,8 +22,8 @@ export async function createStore(store: StoreDto, userId: string) {
     data: {
       title: store.title,
       description: store.description,
-      userId,
-    },
+      userId
+    }
   });
 
   return newStore;
@@ -39,8 +40,8 @@ export async function updateStore(storeId: string, store: StoreDto, userId: stri
     where: { id: storeId },
     data: {
       title: store.title,
-      description: store.description,
-    },
+      description: store.description
+    }
   });
 
   return updateStore;
@@ -54,7 +55,7 @@ export async function deleteStore(storeId: string, userId: string) {
   if (!isExist) throw new Error("Магазин не найден");
 
   const deleteStore = await prisma.store.delete({
-    where: { id: storeId },
+    where: { id: storeId }
   });
 
   return deleteStore;
